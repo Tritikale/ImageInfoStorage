@@ -14,7 +14,7 @@ def create_image(text_str, file):
     width, height = tmp_draw.textsize(text_str)
     img = Image.new('RGB', (width + 10, height + 10), (255, 255, 255))
     draw = ImageDraw.Draw(img)
-    draw.text((5,5), text_str, fill=(0, 0, 0))
+    draw.text((5, 5), text_str, fill=(0, 0, 0))
     img.save(file, 'png')
 
 
@@ -46,7 +46,19 @@ def index(request):
         if form.is_valid():
             with TemporaryFile(mode='w+b') as file:
                 create_image(form.data['text_info'], file)
-                Page.objects.create(image=ImageFile(file, name=create_image_name()+".png"), password=create_password())
+                password = create_password()
+                name = create_image_name()
+                Page.objects.create(image=ImageFile(file, name=name + ".png"), password=password)
+        return render(request, 'main/index.html', {'form': form, 'link': name, 'password': password})
+
     else:
         form = UserInfo()
-    return render(request, 'main/index.html', {'form': form})
+        return render(request, 'main/index.html', {'form': form})
+
+
+def show_page(request):
+    page = Page.objects.get(password='-T+w[;JMh|')  # returns only one object
+    context = {
+        'page': page
+    }
+    return render(request, 'main/show_page.html', context)
