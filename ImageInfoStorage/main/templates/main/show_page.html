@@ -1,13 +1,16 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <div class="container">
+{% extends 'main/base.html' %}
+
+{% block title %}
+Show page
+{% endblock %}
+
+{% block page-name %}
+Show page
+{% endblock %}
+
+{% block content %}
+    <div class="page-info">
         <img src="{{ page.image.url }}">
         <p>{{ page.time }}</p>
     </div>
-</body>
-</html>
+{% endblock %}

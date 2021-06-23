@@ -1,21 +1,20 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=n0, initial-scale=1.0">
-    <title>ImageInfoStorage</title>
-</head>
-<body>
-    <h1>ImageInfoStorage</h1>
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Submit">
-    </form>
-    <div class="user_info">
-        Your link: {{link}} <br>
-        Your password: {{password}} <br>
+{% extends 'main/base.html' %}
+
+{% block title %}
+ImageInfoStorage
+{% endblock %}
+
+{% block page-name %}
+ImageInfoStorage
+{% endblock %}
+
+{% block button %}
+    <button type="submit">Submit</button>
+{% endblock %}
+
+{% block content %}
+    <div class="user-info">
+        <p>Your link: {{link}} </p><br>
+        <p>Your password: {{password}} </p><br>
     </div>
-</body>
-</html>
+{% endblock %}

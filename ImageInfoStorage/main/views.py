@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.core.files.images import ImageFile
 from PIL import Image, ImageDraw
 from tempfile import TemporaryFile
-from .forms import UserInfo
+from .forms import UserInfo, PasswordForm
 from .models import Page
 import random
 import string
@@ -49,16 +49,32 @@ def index(request):
                 password = create_password()
                 name = create_image_name()
                 Page.objects.create(image=ImageFile(file, name=name + ".png"), password=password)
-        return render(request, 'main/index.html', {'form': form, 'link': name, 'password': password})
+            form = UserInfo()
+            return render(request, 'main/index.html', {'form': form, 'link': name, 'password': password})
+        else:
+            form = UserInfo()
+            return render(request, 'main/index.html', {'form': form, 'error_message': 'input is not valid'})
+
 
     else:
         form = UserInfo()
         return render(request, 'main/index.html', {'form': form})
 
 
-def show_page(request):
-    page = Page.objects.get(password='-T+w[;JMh|')  # returns only one object
-    context = {
-        'page': page
-    }
-    return render(request, 'main/show_page.html', context)
+def show_page(request, link):
+    page = Page.objects.get(image='images/' + link + '.png')  # returns only one object
+    if request.method == 'POST':
+        form = PasswordForm(request.POST)
+        if form.is_valid():
+            if form.data['text_info'] == page.password:
+                context = {
+                    'page': page
+                }
+                return render(request, 'main/show_page.html', context)
+            else:
+                form = PasswordForm()
+                return render(request, 'main/show_page.html', {'form': form, 'error_message': 'password is incorrect'})
+
+    else:
+        form = PasswordForm()
+        return render(request, 'main/show_page.html', {'form': form})
