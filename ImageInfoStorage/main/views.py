@@ -6,6 +6,7 @@ from .forms import UserInfo, PasswordForm
 from .models import Page
 import random
 import string
+import os
 
 
 def create_image(text_str, file):
@@ -48,7 +49,7 @@ def index(request):
                 create_image(form.data['text_info'], file)
                 password = create_password()
                 name = create_image_name()
-                Page.objects.create(image=ImageFile(file, name=name + ".png"), password=password)
+                Page.objects.create(image=ImageFile(file, name=name + ".png"), password=password, time=2)
             form = UserInfo()
             return render(request, 'main/index.html', {'form': form, 'link': name, 'password': password})
         else:
@@ -68,9 +69,18 @@ def show_page(request, link):
         if form.is_valid():
             if form.data['text_info'] == page.password:
                 context = {
-                    'page': page
+                    'page': page,
+                    'message': 'Times left to open: '
                 }
-                return render(request, 'main/show_page.html', context)
+                if page.time != 0:
+                    page.time = page.time - 1
+                    page.save()
+                    return render(request, 'main/show_page.html', context)
+                else:
+                    img_name = str(page.image.url)
+                    page.image.storage.delete(img_name[7:])
+                    page.delete()
+                    return render(request, 'main/show_page.html', {'message': 'Page was deleted'})
             else:
                 form = PasswordForm()
                 return render(request, 'main/show_page.html', {'form': form, 'error_message': 'password is incorrect'})

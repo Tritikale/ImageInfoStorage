@@ -60,6 +60,7 @@ form label {
 }
 
 button {
+    font-family: 'Work Sans', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -67,10 +68,10 @@ button {
     width: fit-content;
     height: fit-content;
     font-size: 1.5vw;
-    border: none;
     border-radius: 1vw;
-    background-color: #a1a1a1;
-    color: #696969;
+    border-style: solid;
+    border-width: 0.1vw;
+    border-color: #696969;
     padding: 0.5vw 0.5vw;
     margin-top: 0.5vw;
     margin-left: auto;
@@ -91,3 +92,11 @@ button:hover {
 }
 
 /* ======================SHOW_PAGE===================== */
+.page-info img{
+    min-height: 10vw;
+    min-width=: 10vw;
+}
+
+.page-info p {
+    margin-top: 1vw;
+}
