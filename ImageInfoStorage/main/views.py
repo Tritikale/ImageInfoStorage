@@ -6,7 +6,6 @@ from .forms import UserInfo, PasswordForm
 from .models import Page
 import random
 import string
-import os
 
 
 def create_image(text_str, file):
@@ -55,8 +54,6 @@ def index(request):
         else:
             form = UserInfo()
             return render(request, 'main/index.html', {'form': form, 'error_message': 'input is not valid'})
-
-
     else:
         form = UserInfo()
         return render(request, 'main/index.html', {'form': form})
@@ -84,6 +81,9 @@ def show_page(request, link):
             else:
                 form = PasswordForm()
                 return render(request, 'main/show_page.html', {'form': form, 'error_message': 'password is incorrect'})
+        else:
+            form = PasswordForm()
+            return render(request, 'main/show_page.html', {'form': form, 'error_message': 'input is not valid'})
 
     else:
         form = PasswordForm()
